@@ -33,9 +33,9 @@ export const App = () => {
   };
 
   const handleDelete = id => {
-    setContacts(prev => ({
-      contacts: prev.filter(el => el.id !== id),
-    }));
+    setContacts(prev => {
+      return prev.filter(el => el.id !== id);
+    });
   };
 
   const getFilteredContacts = () => {
