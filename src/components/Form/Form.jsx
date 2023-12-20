@@ -1,57 +1,53 @@
-import { Component } from 'react';
+import { useState } from 'react';
+
 import css from './Form.module.css';
-class Form extends Component {
-  state = {
-    contacts: [],
-    name: '',
-    number: '',
+const Form = ({ onSubmit }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const handleChange = ({ target: { value, name } }) => {
+    if (name === 'name') {
+      setName(value);
+    } else if (name === 'number') {
+      setNumber(value);
+    }
   };
-  handleChange = ({ target: { value, name } }) => {
-    this.setState({
-      [name]: value,
-    });
-  };
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
-    this.props.sendUserData(this.state);
-    console.log(this.state);
-    this.setState({
-      name: '',
-      number: '',
-    });
+    onSubmit({ name, number });
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    return (
-      <form className={css.form} onSubmit={this.handleSubmit}>
-        <li className={css.item}>
-          <label className={css.label}>Name</label>
-          <input
-            className={css.input}
-            type="text"
-            name="name"
-            required
-            value={this.state.name}
-            onChange={this.handleChange}
-          />
-        </li>
-        <li className={css.item}>
-          <label className={css.label}>Number</label>
-          <input
-            className={css.input}
-            type="tel"
-            name="number"
-            required
-            value={this.state.number}
-            onChange={this.handleChange}
-          />
-        </li>
-        <button className={css.button} type="submit">
-          Add contact
-        </button>
-      </form>
-    );
-  }
-}
+  return (
+    <form className={css.form} onSubmit={handleSubmit}>
+      <li className={css.item}>
+        <label className={css.label}>Name</label>
+        <input
+          className={css.input}
+          type="text"
+          name="name"
+          required
+          value={name}
+          onChange={handleChange}
+        />
+      </li>
+      <li className={css.item}>
+        <label className={css.label}>Number</label>
+        <input
+          className={css.input}
+          type="tel"
+          name="number"
+          required
+          value={number}
+          onChange={handleChange}
+        />
+      </li>
+      <button className={css.button} type="submit">
+        Add contact
+      </button>
+    </form>
+  );
+};
 export default Form;
